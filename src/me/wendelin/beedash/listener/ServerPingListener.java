@@ -14,7 +14,7 @@ public class ServerPingListener implements Listener {
                     "           §e[BeeDash] §aMinispiel-Server\n                 §7Warte auf Spieler...");
         } else if (GameManager.inGame) {
             event.setMotd(
-                    "           §e[BeeDash] §aMinispiel-Server\n                 §7Im Spiel");
+                    "           §e[BeeDash] §aMinispiel-Server\n                   §cIm Spiel");
         }
     }
 

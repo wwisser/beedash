@@ -21,8 +21,7 @@ public class DropPickListener implements Listener {
 
         event.setCancelled(true);
         event.getItem().remove();
-        player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 1.0F, 1.0F);
-        player.setLevel(player.getLevel() + 1);
+        player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 50.0F, 50.0F);
 
         /**
         switch (GameManager.getTeam(player)) {

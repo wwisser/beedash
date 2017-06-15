@@ -26,13 +26,8 @@ public class BeeDash extends JavaPlugin {
         getCommand("beedash").setExecutor(new BeeDashExecutor());
 
         GameManager.warmup = true;
+        GameManager.checkPlayers();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                GameManager.dropRandomFlower();
-            }
-        }.runTaskTimer(this, 0, 10L);
     }
 
     @Override

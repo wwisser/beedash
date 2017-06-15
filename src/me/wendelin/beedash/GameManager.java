@@ -1,5 +1,6 @@
 package me.wendelin.beedash;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
@@ -16,7 +17,18 @@ public class GameManager {
 
     public static String prefix = "§e[BeeDash] §a";
 
-    public static Location drop = new Location(Bukkit.getWorld("world"), 318.453, 82, 250.543);
+    public static Location SPAWN_GREEN = new Location(Bukkit.getWorld("world"), -213.588, 12, -224.422, -1.4F, 1.6F);
+    public static Location SPAWN_ORANGE = new Location(Bukkit.getWorld("world"), -213.472, 12, -108.537, -179.9F, 0.8F);
+    public static Location SPAWN_RED = new Location(Bukkit.getWorld("world"), -271.528, 12, -166.455, -90.3F, 0.8F);
+    public static Location SPAWN_BLUE = new Location(Bukkit.getWorld("world"), -155.517, 12, -166.511, -90.3F, 1.3F);
+
+    /**public static Location DROP_GREEN = new Location(Bukkit.getWorld("world"), -212.528, 4, -168.300);
+    public static Location DROP_RED = new Location(Bukkit.getWorld("world"), -214.301, 4, -165.508);
+    public static Location DROP_ORANGE = new Location(Bukkit.getWorld("world"), -212.418, 4, -164.400);
+    public static Location DROP_BLUE = new Location(Bukkit.getWorld("world"), -210.700, 4, -166.464);**/
+
+    public static Location DROP_SPAWN = new Location(Bukkit.getWorld("world"), -212.486, 12, -166.545);
+    public static Location SPAWN = new Location(Bukkit.getWorld("world"), 24.500, 5, -1.4);
 
     public static boolean warmup = false;
     public static boolean inGame = false;
@@ -28,6 +40,8 @@ public class GameManager {
     public static HashMap<UUID, Integer> TEAM_RED = new HashMap<>();
     public static HashMap<UUID, Integer> TEAM_ORANGE = new HashMap<>();
     public static HashMap<UUID, Integer> TEAM_BLUE = new HashMap<>();
+
+    public static ArrayList<UUID> players = new ArrayList<>();
 
     public static int SCORE_GREEN = 0;
     public static int SCORE_RED = 0;
@@ -41,10 +55,11 @@ public class GameManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-
+                GameManager.dropRandomFlower();
             }
-        }.runTaskTimer(BeeDash.instance, 0L, 3L);
+        }.runTaskTimer(BeeDash.instance, 0, 25L);
     }
+
 
     public static void checkPlayers() {
         new BukkitRunnable() {
@@ -57,7 +72,7 @@ public class GameManager {
                     }
                 }
             }
-        }.runTaskTimer(BeeDash.instance, 0L, 5L);
+        }.runTaskTimer(BeeDash.instance, 0L, 200L);
     }
 
     public static String getTeamColor(Player player) {
@@ -108,32 +123,20 @@ public class GameManager {
     }
 
     public static void dropRandomFlower() {
-        int i = new Random().nextInt(6);
+        int i = new Random().nextInt(4);
 
         switch (i) {
             case 0:
-                ItemStack flower1 = new ItemBuilder(Material.RED_ROSE).damage(1).build();
-                drop.getWorld().dropItemNaturally(drop, flower1);
+                ItemStack nugget = new ItemBuilder(Material.GOLD_NUGGET).name(new Random().nextInt(500000) + "§c").build();
+                DROP_SPAWN.getWorld().dropItem(DROP_SPAWN, nugget);
                 break;
             case 1:
-                ItemStack flower2 = new ItemBuilder(Material.RED_ROSE).damage(2).build();
-                drop.getWorld().dropItemNaturally(drop, flower2);
+                ItemStack ingot = new ItemBuilder(Material.GOLD_INGOT).name(new Random().nextInt(500000) + "§c").build();
+                DROP_SPAWN.getWorld().dropItem(DROP_SPAWN, ingot);
                 break;
             case 2:
-                ItemStack flower3 = new ItemBuilder(Material.RED_ROSE).damage(4).build();
-                drop.getWorld().dropItemNaturally(drop, flower3);
-                break;
-            case 3:
-                ItemStack flower4 = new ItemBuilder(Material.RED_ROSE).build();
-                drop.getWorld().dropItemNaturally(drop, flower4);
-                break;
-            case 4:
-                ItemStack flower5 = new ItemBuilder(Material.YELLOW_FLOWER).build();
-                drop.getWorld().dropItemNaturally(drop, flower5);
-                break;
-            case 5:
-                ItemStack flower6 = new ItemBuilder(Material.RED_ROSE).damage(8).build();
-                drop.getWorld().dropItemNaturally(drop, flower6);
+                ItemStack block = new ItemBuilder(Material.GOLD_BLOCK).name(new Random().nextInt(500000) + "§c").build();
+                DROP_SPAWN.getWorld().dropItem(DROP_SPAWN, block);
                 break;
         }
     }
