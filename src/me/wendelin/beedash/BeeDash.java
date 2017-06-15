@@ -3,11 +3,13 @@ package me.wendelin.beedash;
 import me.wendelin.beedash.commands.BeeDashExecutor;
 import me.wendelin.beedash.listener.BuildBreakListener;
 import me.wendelin.beedash.listener.DropPickListener;
+import me.wendelin.beedash.listener.EntityDamageListener;
+import me.wendelin.beedash.listener.FoodLevelChangeListener;
+import me.wendelin.beedash.listener.InvClickListener;
 import me.wendelin.beedash.listener.JoinQuitListener;
 import me.wendelin.beedash.listener.ServerPingListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class BeeDash extends JavaPlugin {
 
@@ -22,6 +24,9 @@ public class BeeDash extends JavaPlugin {
         pm.registerEvents(new ServerPingListener(), this);
         pm.registerEvents(new DropPickListener(), this);
         pm.registerEvents(new BuildBreakListener(), this);
+        pm.registerEvents(new InvClickListener(), this);
+        pm.registerEvents(new FoodLevelChangeListener(), this);
+        pm.registerEvents(new EntityDamageListener(), this);
 
         getCommand("beedash").setExecutor(new BeeDashExecutor());
 

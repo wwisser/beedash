@@ -66,7 +66,7 @@ public class GameManager {
             @Override
             public void run() {
                 if (Bukkit.getOnlinePlayers().size() < 4) {
-                    Bukkit.broadcastMessage(prefix + "Warte auf Spieler...");
+                    Bukkit.broadcastMessage(prefix + "Warte auf Spieler... (Minimum: 2)");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.playSound(player.getLocation(), Sound.NOTE_STICKS, 0.5F, 0.5F);
                     }

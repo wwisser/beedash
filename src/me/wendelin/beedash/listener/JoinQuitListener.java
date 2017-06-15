@@ -1,9 +1,12 @@
 package me.wendelin.beedash.listener;
 
 import me.wendelin.beedash.GameManager;
+import me.wendelin.beedash.inventories.TeamSelector;
+import me.wendelin.beedash.util.ItemBuilder;
 import me.wendelin.beedash.util.Title;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,10 +23,11 @@ public class JoinQuitListener implements Listener {
 
         if (GameManager.warmup) {
             GameManager.players.add(player.getUniqueId());
+            player.getInventory().setItem(0, new ItemBuilder(Material.NETHER_STAR).name("§3Wähle dein Team!").build());
             player.setPlayerListName("§7" + player.getName());
             player.teleport(GameManager.SPAWN);
             player.getInventory().clear();
-            player.setGameMode(GameMode.ADVENTURE);
+            player.setGameMode(GameMode.SURVIVAL);
             new Title("§e[BeeDash]", "§aMinigame", 1, 3, 1).send(player);
             event.setJoinMessage(
                     GameManager.prefix + ChatColor.AQUA + player.getName() + " §awill spielen!");
@@ -37,6 +41,8 @@ public class JoinQuitListener implements Listener {
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
+        Player player = event.getPlayer();
+        event.setKickMessage(GameManager.prefix + "\n§cSorry!\nDas Spiel läuft bereits :(");
         if (GameManager.inGame) {
             event.setKickMessage(GameManager.prefix + "\n§cSorry!\nDas Spiel läuft bereits :(");
         }
