@@ -40,7 +40,6 @@ public class JoinQuitListener implements Listener {
                 }
             }.runTaskLater(BeeDash.instance, 1);
 
-            player.sendMessage("§cdebug");
             player.setPlayerListName("§7" + player.getName());
             player.teleport(GameManager.SPAWN);
             player.getInventory().clear();

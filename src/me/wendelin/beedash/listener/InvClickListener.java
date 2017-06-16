@@ -60,6 +60,7 @@ public class InvClickListener implements Listener {
                 case "GREEN":
                     if (!(GameManager.TEAM_GREEN.size() > 4)) {
                         GameManager.TEAM_GREEN.put(player.getUniqueId(), 0);
+                        GameManager.teams.put(player.getUniqueId(), "GREEN");
                     } else {
                         player.sendMessage(GameManager.prefix + "Dieses Team ist schon voll!");
                     }
@@ -69,6 +70,7 @@ public class InvClickListener implements Listener {
                 case "RED":
                     if (!(GameManager.TEAM_RED.size() > 4)) {
                         GameManager.TEAM_RED.put(player.getUniqueId(), 0);
+                        GameManager.teams.put(player.getUniqueId(), "RED");
                     } else {
                         player.sendMessage(GameManager.prefix + "Dieses Team ist schon voll!");
                     }
@@ -78,6 +80,7 @@ public class InvClickListener implements Listener {
                 case "ORANGE":
                     if (!(GameManager.TEAM_ORANGE.size() > 4)) {
                         GameManager.TEAM_ORANGE.put(player.getUniqueId(), 0);
+                        GameManager.teams.put(player.getUniqueId(), "ORANGE");
                     } else {
                         player.sendMessage(GameManager.prefix + "Dieses Team ist schon voll!");
                     }
@@ -87,6 +90,7 @@ public class InvClickListener implements Listener {
                 case "BLUE":
                     if (!(GameManager.TEAM_BLUE.size() > 4)) {
                         GameManager.TEAM_BLUE.put(player.getUniqueId(), 0);
+                        GameManager.teams.put(player.getUniqueId(), "BLUE");
                     } else {
                         player.sendMessage(GameManager.prefix + "Dieses Team ist schon voll!");
                     }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 import me.wendelin.beedash.util.ItemBuilder;
+import me.wendelin.beedash.util.ItemEquipper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,14 +21,16 @@ public class GameManager {
     public static Location SPAWN_GREEN = new Location(Bukkit.getWorld("world"), -213.588, 12, -224.422, -1.4F, 1.6F);
     public static Location SPAWN_ORANGE = new Location(Bukkit.getWorld("world"), -213.472, 12, -108.537, -179.9F, 0.8F);
     public static Location SPAWN_RED = new Location(Bukkit.getWorld("world"), -271.528, 12, -166.455, -90.3F, 0.8F);
-    public static Location SPAWN_BLUE = new Location(Bukkit.getWorld("world"), -155.517, 12, -166.511, -90.3F, 1.3F);
+    public static Location SPAWN_BLUE = new Location(Bukkit.getWorld("world"), -155.517, 12,
+            -166.511, 88.0F, -0.7F);
 
     /**public static Location DROP_GREEN = new Location(Bukkit.getWorld("world"), -212.528, 4, -168.300);
     public static Location DROP_RED = new Location(Bukkit.getWorld("world"), -214.301, 4, -165.508);
     public static Location DROP_ORANGE = new Location(Bukkit.getWorld("world"), -212.418, 4, -164.400);
     public static Location DROP_BLUE = new Location(Bukkit.getWorld("world"), -210.700, 4, -166.464);**/
 
-    public static Location DROP_SPAWN = new Location(Bukkit.getWorld("world"), -212.486, 12, -166.545);
+    private static Location DROP_SPAWN = new Location(Bukkit.getWorld("world"), -212.486, 12,
+            -166.545);
     public static Location SPAWN = new Location(Bukkit.getWorld("world"), 24.500, 5, -1.4);
 
     public static boolean warmup = false;
@@ -52,12 +55,36 @@ public class GameManager {
         warmup = false;
         inGame = true;
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            teleportPlayer(player);
+            ItemEquipper.equipItems(player);
+        }
+
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (ended) {
+                    cancel();
+                }
                 GameManager.dropRandomFlower();
             }
         }.runTaskTimer(BeeDash.instance, 0, 25L);
+    }
+
+    public static void endGame() {
+        ended = true;
+
+        Bukkit.broadcastMessage(prefix + "Der Server startet in 10 Sekunden neu.");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.kickPlayer(prefix + "Der Server startet jetzt neu!");
+                }
+
+                Bukkit.shutdown();
+            }
+        }.runTaskLater(BeeDash.instance, 200L);
     }
 
 
@@ -73,6 +100,23 @@ public class GameManager {
                 }
             }
         }.runTaskTimer(BeeDash.instance, 0L, 200L);
+    }
+
+    public static HashMap getTeamHashMap(Player player) {
+        String teamColor = getTeamColor(player);
+
+        switch (teamColor) {
+            case "§2":
+                return TEAM_GREEN;
+            case "§4":
+                return TEAM_RED;
+            case "§6":
+                return TEAM_ORANGE;
+            case "§9":
+                return TEAM_BLUE;
+        }
+
+        return null;
     }
 
     public static String getTeamColor(Player player) {
@@ -122,7 +166,7 @@ public class GameManager {
         return 0;
     }
 
-    public static void dropRandomFlower() {
+    private static void dropRandomFlower() {
         int i = new Random().nextInt(4);
 
         switch (i) {
@@ -138,6 +182,23 @@ public class GameManager {
                 ItemStack block = new ItemBuilder(Material.GOLD_BLOCK).name(new Random().nextInt(500000) + "§c").build();
                 DROP_SPAWN.getWorld().dropItem(DROP_SPAWN, block);
                 break;
+        }
+    }
+
+    public static void teleportPlayer(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        if (TEAM_GREEN.containsKey(uuid)) {
+            player.teleport(SPAWN_GREEN);
+        }
+        if (TEAM_RED.containsKey(uuid)) {
+            player.teleport(SPAWN_RED);
+        }
+        if (TEAM_ORANGE.containsKey(uuid)) {
+            player.teleport(SPAWN_ORANGE);
+        }
+        if (TEAM_BLUE.containsKey(uuid)) {
+            player.teleport(SPAWN_BLUE);
         }
     }
 
