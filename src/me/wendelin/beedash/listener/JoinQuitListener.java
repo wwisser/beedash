@@ -54,7 +54,7 @@ public class JoinQuitListener implements Listener {
                 }
             }.runTaskLater(BeeDash.instance, 1);**/
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-            player.setPlayerListName("§7" + player.getName());
+            player.setPlayerListName("§8" + player.getName());
             player.teleport(GameManager.SPAWN);
             player.getInventory().clear();
             player.setGameMode(GameMode.SURVIVAL);
@@ -135,13 +135,13 @@ public class JoinQuitListener implements Listener {
                 GameManager.TEAM_GREEN.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "GREEN");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §2Grün §aeingeteilt!");
-                skinLoad(player, "c48b345a06b24a848a1bef82eeed5f38");
+                skinLoad(player, "977721a135d441d99737ca453815c651");
                 break;
             case 2:
                 GameManager.TEAM_RED.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "RED");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §4Rot §aeingeteilt!");
-                skinLoad(player, "977721a135d441d99737ca453815c651");
+                skinLoad(player, "c48b345a06b24a848a1bef82eeed5f38");
                 break;
             case 3:
                 GameManager.TEAM_ORANGE.put(player.getUniqueId(), 0);
@@ -210,8 +210,6 @@ public class JoinQuitListener implements Listener {
     }
 
     private static void skinLoad(Player player, String uuid) {
-        if (i == 0) {
-            i++;
             GameProfile gp = ((CraftPlayer) player).getProfile();
             gp.getProperties().clear();
             Skin skin = new Skin(uuid);
@@ -236,7 +234,6 @@ public class JoinQuitListener implements Listener {
                     }
                 }
             }.runTaskLater(BeeDash.instance, 10);
-        }
     }
 
 }

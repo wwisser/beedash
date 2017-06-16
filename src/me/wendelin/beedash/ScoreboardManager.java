@@ -68,8 +68,8 @@ public class ScoreboardManager {
             obj.setDisplayName(GameManager.prefix);
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-            Score score = obj.getScore("§aSpiel-Ende");
-            score.setScore(Bukkit.getOnlinePlayers().size());
+            Score score = obj.getScore("§aSpielende");
+            score.setScore(0);
         }
 
         player.setScoreboard(scoreboard);

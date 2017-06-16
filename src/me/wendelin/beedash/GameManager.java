@@ -91,19 +91,21 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                (int) GameManager.getTeamHashMap(player)
-                                                        .get(player.getUniqueId()) - 1);
-                                        GameManager.SCORE_RED++;
-                                        player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                10.3F, 10.3F);
-                                        new Title("", "§e+1 Punkt").send(player);
-                                        player.getWorld().playEffect(player.getLocation(),
-                                                Effect.COLOURED_DUST, 50);
                                         if (SCORE_RED == WIN) {
                                             endGame();
                                             titleBroadcast("§4Team Rot hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
+                                        } else {
+                                            GameManager.getTeamHashMap(player)
+                                                    .put(player.getUniqueId(),
+                                                            (int) GameManager.getTeamHashMap(player)
+                                                                    .get(player.getUniqueId()) - 1);
+                                            GameManager.SCORE_RED++;
+                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
+                                                    10.3F, 10.3F);
+                                            new Title("", "§e+1 Punkt").send(player);
+                                            player.getWorld().playEffect(player.getLocation(),
+                                                    Effect.COLOURED_DUST, 50);
                                         }
                                     }
                                 }
@@ -114,19 +116,20 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                (int) GameManager.getTeamHashMap(player)
-                                                        .get(player.getUniqueId()) - 1);
-                                        GameManager.SCORE_GREEN++;
-                                        player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                10.3F, 10.3F);
-                                        new Title("", "§e+1 Punkt").send(player);
-                                        player.getWorld().playEffect(player.getLocation(),
-                                                Effect.COLOURED_DUST, 50);
                                         if (SCORE_GREEN == WIN) {
                                             endGame();
-                                            titleBroadcast("§2Team Grün hat gewonnen!",
+                                            titleBroadcast("§4Team Rot hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
+                                        } else {
+                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
+                                                    (int) GameManager.getTeamHashMap(player)
+                                                            .get(player.getUniqueId()) - 1);
+                                            GameManager.SCORE_GREEN++;
+                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
+                                                    10.3F, 10.3F);
+                                            new Title("", "§e+1 Punkt").send(player);
+                                            player.getWorld().playEffect(player.getLocation(),
+                                                    Effect.COLOURED_DUST, 50);
                                         }
                                     }
                                 }
@@ -137,19 +140,20 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                (int) GameManager.getTeamHashMap(player)
-                                                        .get(player.getUniqueId()) - 1);
-                                        GameManager.SCORE_BLUE++;
-                                        player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                10.3F, 10.3F);
-                                        new Title("", "§e+1 Punkt").send(player);
-                                        player.getWorld().playEffect(player.getLocation(),
-                                                Effect.COLOURED_DUST, 50);
                                         if (SCORE_BLUE == WIN) {
                                             endGame();
-                                            titleBroadcast("§9Team Blau hat gewonnen!",
+                                            titleBroadcast("§4Team Rot hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
+                                        } else {
+                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
+                                                    (int) GameManager.getTeamHashMap(player)
+                                                            .get(player.getUniqueId()) - 1);
+                                            GameManager.SCORE_BLUE++;
+                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
+                                                    10.3F, 10.3F);
+                                            new Title("", "§e+1 Punkt").send(player);
+                                            player.getWorld().playEffect(player.getLocation(),
+                                                    Effect.COLOURED_DUST, 50);
                                         }
                                     }
                                 }
@@ -160,19 +164,20 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                (int) GameManager.getTeamHashMap(player)
-                                                        .get(player.getUniqueId()) - 1);
-                                        GameManager.SCORE_ORANGE++;
-                                        player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                10.3F, 10.3F);
-                                        new Title("", "§e+1 Punkt").send(player);
-                                        player.getWorld().playEffect(player.getLocation(),
-                                                Effect.COLOURED_DUST, 50);
                                         if (SCORE_ORANGE == WIN) {
                                             endGame();
-                                            titleBroadcast("§6Team Orange hat gewonnen!",
+                                            titleBroadcast("§4Team Rot hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
+                                        } else {
+                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
+                                                    (int) GameManager.getTeamHashMap(player)
+                                                            .get(player.getUniqueId()) - 1);
+                                            GameManager.SCORE_ORANGE++;
+                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
+                                                    10.3F, 10.3F);
+                                            new Title("", "§e+1 Punkt").send(player);
+                                            player.getWorld().playEffect(player.getLocation(),
+                                                    Effect.COLOURED_DUST, 50);
                                         }
                                     }
                                 }

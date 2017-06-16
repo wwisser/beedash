@@ -25,7 +25,6 @@ public class Skin {
 
     private void load() {
         try {
-            // Get the name from SwordPVP
             URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid
                     + "?unsigned=false");
             URLConnection uc = url.openConnection();
@@ -35,7 +34,6 @@ public class Skin {
             uc.addRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
             uc.addRequestProperty("Pragma", "no-cache");
 
-            // Parse it
             String json = new Scanner(uc.getInputStream(), "UTF-8").useDelimiter("\\A").next();
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(json);
@@ -59,7 +57,6 @@ public class Skin {
                 }
             }
         } catch (Exception e) {
-            ; // Failed to load skin
         }
     }
 

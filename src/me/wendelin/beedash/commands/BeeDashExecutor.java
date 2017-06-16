@@ -12,8 +12,11 @@ public class BeeDashExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player)sender;
-            player.sendMessage(GameManager.prefix + "");
-            GameManager.startGame();
+            if (player.isOp()) {
+                player.sendMessage(GameManager.prefix + "Debug");
+            } else {
+                player.sendMessage(GameManager.prefix + "Dieser Command ist nur für Operatoren!");
+            }
         } else {
             System.out.println("[BeeDash] Dieser Command ist nur fuer Spieler!");
         }
