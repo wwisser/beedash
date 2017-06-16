@@ -23,8 +23,8 @@ public class DropPickListener implements Listener {
         Player player = event.getPlayer();
 
         event.setCancelled(true);
-        event.getItem().remove();
         if (!((int) GameManager.getTeamHashMap(player).get(player.getUniqueId()) >= 15)) {
+            event.getItem().remove();
             GameManager.getTeamHashMap(player).put(player.getUniqueId(),
                     (int) GameManager.getTeamHashMap(player).get(player.getUniqueId())
                             + 1);
