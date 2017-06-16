@@ -13,7 +13,7 @@ public class ItemEquipper {
 
         player.setAllowFlight(true);
         player.setFlying(true);
-        player.setFlySpeed(0.1F);
+        player.setFlySpeed(0.08F);
 
         player.getInventory().setItem(0, new ItemBuilder(Material.STONE_SWORD).enchantment(
                 Enchantment.DURABILITY, 5).build());
@@ -22,7 +22,7 @@ public class ItemEquipper {
                 new ItemBuilder(Material.ARROW).enchantment(Enchantment.ARROW_KNOCKBACK, 1)
                         .amount(8).build());
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999999, 3));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999999, 2));
     }
 
 }

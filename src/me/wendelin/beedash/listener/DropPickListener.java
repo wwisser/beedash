@@ -1,10 +1,11 @@
 package me.wendelin.beedash.listener;
 
-import me.wendelin.beedash.GameManager;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
@@ -42,6 +43,14 @@ public class DropPickListener implements Listener {
                         GameManager.TEAM_GREEN.get(player.getUniqueId()) + 1);
                 break;
         }**/
+    }
+
+    @EventHandler
+    public void onArrowHit(ProjectileHitEvent event) {
+        if (event.getEntity() instanceof Arrow) {
+            Arrow arrow = (Arrow) event.getEntity();
+            arrow.remove();
+        }
     }
 
 }

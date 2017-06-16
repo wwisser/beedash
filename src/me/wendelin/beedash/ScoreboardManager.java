@@ -20,11 +20,48 @@ public class ScoreboardManager {
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             Score score = obj.getScore("§aWartelobby");
-            score.setScore(Bukkit.getOnlinePlayers().size());
+            score.setScore(1);
+
+            Score score1 = obj.getScore("§aDein Team: " + GameManager.getTeamColor(player) + "●");
+            score1.setScore(0);
         }
 
         if (GameManager.inGame) {
+            obj.setDisplayName(GameManager.prefix);
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
+            Score blue = obj.getScore("§9Team Blau");
+            Score blue_score = obj
+                    .getScore("§b" + GameManager.SCORE_BLUE + "§7/§b" + GameManager.WIN);
+            blue.setScore(1);
+            blue_score.setScore(0);
+
+            Score placeholder3 = obj.getScore("§c");
+            placeholder3.setScore(2);
+
+            Score orange = obj.getScore("§6Team Orange");
+            Score orange_score = obj
+                    .getScore("§e" + GameManager.SCORE_ORANGE + "§7/§e" + GameManager.WIN);
+            orange.setScore(4);
+            orange_score.setScore(3);
+
+            Score placeholder2 = obj.getScore("§b ");
+            placeholder2.setScore(5);
+
+            Score red = obj.getScore("§4Team Rot");
+            Score red_score = obj
+                    .getScore("§c" + GameManager.SCORE_RED + "§7/§c" + GameManager.WIN);
+            red.setScore(7);
+            red_score.setScore(6);
+
+            Score placeholder1 = obj.getScore("§3  ");
+            placeholder1.setScore(8);
+
+            Score green = obj.getScore("§2Team Grün");
+            Score green_score = obj
+                    .getScore("§a" + GameManager.SCORE_GREEN + "§7/§a" + GameManager.WIN);
+            green.setScore(10);
+            green_score.setScore(9);
         }
 
         if (GameManager.ended) {
@@ -46,7 +83,7 @@ public class ScoreboardManager {
                     updateScoreboard(player);
                 }
             }
-        }.runTaskTimer(BeeDash.instance, 0L, 20L);
+        }.runTaskTimer(BeeDash.instance, 0L, 10L);
     }
 
 }

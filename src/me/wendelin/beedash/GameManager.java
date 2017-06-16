@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import me.wendelin.beedash.util.ActionBar;
 import me.wendelin.beedash.util.ItemBuilder;
 import me.wendelin.beedash.util.ItemEquipper;
+import me.wendelin.beedash.util.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,6 +53,10 @@ public class GameManager {
     public static int SCORE_ORANGE = 0;
     public static int SCORE_BLUE = 0;
 
+    public static int WIN = 1000;
+
+    public static int MAX_BACKPACK = 15;
+
     public static void startGame() {
         warmup = false;
         inGame = true;
@@ -59,6 +65,8 @@ public class GameManager {
             teleportPlayer(player);
             ItemEquipper.equipItems(player);
         }
+
+        statusTask();
 
         new BukkitRunnable() {
             @Override
@@ -92,14 +100,116 @@ public class GameManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (Bukkit.getOnlinePlayers().size() < 4) {
-                    Bukkit.broadcastMessage(prefix + "Warte auf Spieler... (Minimum: 2)");
+                if (Bukkit.getOnlinePlayers().size() < 2) {
+                    Bukkit.broadcastMessage(prefix + "Warte auf Spieler... (min. 2, max. 12)");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.playSound(player.getLocation(), Sound.NOTE_STICKS, 0.5F, 0.5F);
                     }
+                } else {
+                    Bukkit.broadcastMessage(prefix + "Spiel-Start in einer Minute!");
+                    tutorial();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            startGame();
+                        }
+                    }.runTaskLater(BeeDash.instance, 20L * 60);
+                    cancel();
                 }
             }
         }.runTaskTimer(BeeDash.instance, 0L, 200L);
+    }
+
+    private static void tutorial() {
+        new BukkitRunnable() {
+            int i = 0;
+
+            @Override
+            public void run() {
+                switch (i) {
+                    case 20:
+                        titleBroadcast("§aWende präsentiert:", "§eBeeDash!");
+                        break;
+                    case 25:
+                        titleBroadcast("§aFliege in die Mitte,",
+                                "§eum Honig aus der Blüte aufzusammeln!");
+                        break;
+                    case 30:
+                        titleBroadcast("§aBringe den Honig zurück",
+                                "§ein deine Team-Basis, um den Honigtopf zu füllen.");
+                        break;
+                    case 35:
+                        titleBroadcast("§aTöte andere Spieler", "§eum deren Honig zu klauen!");
+                        break;
+                    case 40:
+                        titleBroadcast("§aDas Team, dessen Honigtopf",
+                                "§eals erstes voll ist, gewinnt!");
+                        break;
+                    case 45:
+                        titleBroadcast("§aNoch 15 Sekunden", "§ebis zum Start!");
+                        break;
+                    case 55:
+                        titleBroadcast("§aMach dich bereit!", "§4➎");
+                        break;
+                    case 56:
+                        titleBroadcast("§aMach dich bereit!", "§c➍");
+                        break;
+                    case 57:
+                        titleBroadcast("§aGleich gehts los!", "§6➌");
+                        break;
+                    case 58:
+                        titleBroadcast("§aGleich gehts los!", "§e➋");
+                        break;
+                    case 59:
+                        titleBroadcast("§aLetssss gooo!", "§2❶");
+                        break;
+                    case 60:
+                        titleBroadcast("§aViel Erfolg!", "§eUnd jetzt fleißig sammeln!");
+                        cancel();
+                        break;
+                }
+                i++;
+            }
+        }.runTaskTimer(BeeDash.instance, 0L, 20L);
+    }
+
+    private static void titleBroadcast(String title, String subtitle) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new Title(title, subtitle, 1, 3, 1).send(player);
+            player.playSound(player.getLocation(), Sound.NOTE_PLING, 0.5F, 0.5F);
+        }
+    }
+
+    public static void removeFromAllTeams(Player player) {
+        if (TEAM_GREEN.containsKey(player.getUniqueId())) {
+            TEAM_GREEN.remove(player.getUniqueId());
+        }
+        if (TEAM_RED.containsKey(player.getUniqueId())) {
+            TEAM_RED.remove(player.getUniqueId());
+        }
+        if (TEAM_ORANGE.containsKey(player.getUniqueId())) {
+            TEAM_ORANGE.remove(player.getUniqueId());
+        }
+        if (TEAM_BLUE.containsKey(player.getUniqueId())) {
+            TEAM_BLUE.remove(player.getUniqueId());
+        }
+        teams.remove(player.getUniqueId());
+    }
+
+    private static void statusTask() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (inGame) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        new ActionBar("Deine Team-Farbe: " + getTeamColor(player)
+                                + "● §7- §aHonig-Punkte dabei: " + getTeamColor(player)
+                                + getTeamHashMap(player).get(player.getUniqueId()))
+                                .sendToPlayer(player);
+                    }
+                }
+            }
+        }.runTaskTimer(BeeDash.instance, 0L, 5L);
     }
 
     public static HashMap getTeamHashMap(Player player) {
@@ -117,6 +227,23 @@ public class GameManager {
         }
 
         return null;
+    }
+
+    public static int teamScoreFetcher(Player player) {
+        String teamColor = getTeamColor(player);
+
+        switch (teamColor) {
+            case "§2":
+                return SCORE_GREEN;
+            case "§4":
+                return SCORE_RED;
+            case "§6":
+                return SCORE_ORANGE;
+            case "§9":
+                return SCORE_BLUE;
+        }
+
+        return 0;
     }
 
     public static String getTeamColor(Player player) {

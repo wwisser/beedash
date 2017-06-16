@@ -2,6 +2,7 @@ package me.wendelin.beedash.listener;
 
 import me.wendelin.beedash.GameManager;
 import me.wendelin.beedash.inventories.TeamSelector;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -59,6 +60,9 @@ public class InvClickListener implements Listener {
             switch (string) {
                 case "GREEN":
                     if (!(GameManager.TEAM_GREEN.size() > 4)) {
+                        GameManager.removeFromAllTeams(player);
+                        Bukkit.broadcastMessage(GameManager.prefix + "§b" + player.getName()
+                                + " §aist Team §2Grün §abeigetreten.");
                         GameManager.TEAM_GREEN.put(player.getUniqueId(), 0);
                         GameManager.teams.put(player.getUniqueId(), "GREEN");
                     } else {
@@ -69,6 +73,9 @@ public class InvClickListener implements Listener {
                     break;
                 case "RED":
                     if (!(GameManager.TEAM_RED.size() > 4)) {
+                        GameManager.removeFromAllTeams(player);
+                        Bukkit.broadcastMessage(GameManager.prefix + "§b" + player.getName()
+                                + " §aist Team §4Rot §abeigetreten.");
                         GameManager.TEAM_RED.put(player.getUniqueId(), 0);
                         GameManager.teams.put(player.getUniqueId(), "RED");
                     } else {
@@ -79,6 +86,9 @@ public class InvClickListener implements Listener {
                     break;
                 case "ORANGE":
                     if (!(GameManager.TEAM_ORANGE.size() > 4)) {
+                        GameManager.removeFromAllTeams(player);
+                        Bukkit.broadcastMessage(GameManager.prefix + "§b" + player.getName()
+                                + " §aist Team §6Orange §abeigetreten.");
                         GameManager.TEAM_ORANGE.put(player.getUniqueId(), 0);
                         GameManager.teams.put(player.getUniqueId(), "ORANGE");
                     } else {
@@ -89,8 +99,11 @@ public class InvClickListener implements Listener {
                     break;
                 case "BLUE":
                     if (!(GameManager.TEAM_BLUE.size() > 4)) {
+                        GameManager.removeFromAllTeams(player);
                         GameManager.TEAM_BLUE.put(player.getUniqueId(), 0);
                         GameManager.teams.put(player.getUniqueId(), "BLUE");
+                        Bukkit.broadcastMessage(GameManager.prefix + "§b" + player.getName()
+                                + " §aist Team §9Blau §abeigetreten.");
                     } else {
                         player.sendMessage(GameManager.prefix + "Dieses Team ist schon voll!");
                     }
