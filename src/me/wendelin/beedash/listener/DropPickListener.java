@@ -1,5 +1,7 @@
 package me.wendelin.beedash.listener;
 
+import me.wendelin.beedash.GameManager;
+import me.wendelin.beedash.util.Title;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -22,27 +24,14 @@ public class DropPickListener implements Listener {
 
         event.setCancelled(true);
         event.getItem().remove();
-        player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 50.0F, 50.0F);
-
-        /**
-        switch (GameManager.getTeam(player)) {
-            case "GREEN":
-                GameManager.TEAM_GREEN.put(player.getUniqueId(),
-                        GameManager.TEAM_GREEN.get(player.getUniqueId()) + 1);
-                break;
-            case "RED":
-                GameManager.TEAM_GREEN.put(player.getUniqueId(),
-                        GameManager.TEAM_GREEN.get(player.getUniqueId()) + 1);
-                break;
-            case "ORANGE":
-                GameManager.TEAM_GREEN.put(player.getUniqueId(),
-                        GameManager.TEAM_GREEN.get(player.getUniqueId()) + 1);
-                break;
-            case "BLUE":
-                GameManager.TEAM_GREEN.put(player.getUniqueId(),
-                        GameManager.TEAM_GREEN.get(player.getUniqueId()) + 1);
-                break;
-        }**/
+        if (!((int) GameManager.getTeamHashMap(player).get(player.getUniqueId()) >= 15)) {
+            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
+                    (int) GameManager.getTeamHashMap(player).get(player.getUniqueId())
+                            + 1);
+            player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.3F, 0.3F);
+        } else {
+            new Title("", "§cDu kannst nicht noch mehr tragen!").send(player);
+        }
     }
 
     @EventHandler
