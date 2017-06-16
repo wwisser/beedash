@@ -14,8 +14,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameManager {
@@ -50,16 +54,30 @@ public class GameManager {
     public static int SCORE_ORANGE = 0;
     public static int SCORE_BLUE = 0;
 
-    public static int WIN = 100;
+    public static int WIN = 50;
+
+    private static int debugger = 0;
 
     public static void startGame() {
         warmup = false;
         inGame = true;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
+            player.setPlayerListName(getTeamColor(player) + player.getName());
             teleportPlayer(player);
             ItemEquipper.equipItems(player);
         }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Entity entity : Bukkit.getWorld("world").getEntities()) {
+                    if (entity.getType() == EntityType.DROPPED_ITEM) {
+                        entity.remove();
+                    }
+                }
+            }
+        }.runTaskLater(BeeDash.instance, 50L);
 
         statusTask();
 
@@ -72,7 +90,7 @@ public class GameManager {
                 GameManager.dropRandomFlower();
                 DROP_SPAWN.getWorld().playEffect(DROP_SPAWN, Effect.LAVA_POP, 10);
             }
-        }.runTaskTimer(BeeDash.instance, 0, 25L);
+        }.runTaskTimer(BeeDash.instance, 0, 13L);
 
         new BukkitRunnable() {
             @Override
@@ -91,7 +109,7 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_RED == WIN) {
+                                        if (SCORE_RED >= WIN) {
                                             endGame();
                                             titleBroadcast("§4Team Rot hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
@@ -103,6 +121,8 @@ public class GameManager {
                                             GameManager.SCORE_RED++;
                                             player.playSound(player.getLocation(), Sound.LEVEL_UP,
                                                     10.3F, 10.3F);
+                                            player.addPotionEffect(new PotionEffect(
+                                                    PotionEffectType.REGENERATION, 10, 5));
                                             new Title("", "§e+1 Punkt").send(player);
                                             player.getWorld().playEffect(player.getLocation(),
                                                     Effect.COLOURED_DUST, 50);
@@ -116,9 +136,9 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_GREEN == WIN) {
+                                        if (SCORE_GREEN >= WIN) {
                                             endGame();
-                                            titleBroadcast("§4Team Rot hat gewonnen!",
+                                            titleBroadcast("§2Team Grün hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
                                         } else {
                                             GameManager.getTeamHashMap(player).put(player.getUniqueId(),
@@ -127,6 +147,8 @@ public class GameManager {
                                             GameManager.SCORE_GREEN++;
                                             player.playSound(player.getLocation(), Sound.LEVEL_UP,
                                                     10.3F, 10.3F);
+                                            player.addPotionEffect(new PotionEffect(
+                                                    PotionEffectType.REGENERATION, 10, 5));
                                             new Title("", "§e+1 Punkt").send(player);
                                             player.getWorld().playEffect(player.getLocation(),
                                                     Effect.COLOURED_DUST, 50);
@@ -140,9 +162,9 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_BLUE == WIN) {
+                                        if (SCORE_BLUE >= WIN) {
                                             endGame();
-                                            titleBroadcast("§4Team Rot hat gewonnen!",
+                                            titleBroadcast("§9Team Blau hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
                                         } else {
                                             GameManager.getTeamHashMap(player).put(player.getUniqueId(),
@@ -151,6 +173,8 @@ public class GameManager {
                                             GameManager.SCORE_BLUE++;
                                             player.playSound(player.getLocation(), Sound.LEVEL_UP,
                                                     10.3F, 10.3F);
+                                            player.addPotionEffect(new PotionEffect(
+                                                    PotionEffectType.REGENERATION, 10, 5));
                                             new Title("", "§e+1 Punkt").send(player);
                                             player.getWorld().playEffect(player.getLocation(),
                                                     Effect.COLOURED_DUST, 50);
@@ -164,9 +188,9 @@ public class GameManager {
                                     if (player.isSneaking() &&
                                             (int) GameManager.getTeamHashMap(player)
                                                     .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_ORANGE == WIN) {
+                                        if (SCORE_ORANGE >= WIN) {
                                             endGame();
-                                            titleBroadcast("§4Team Rot hat gewonnen!",
+                                            titleBroadcast("§6Team Orange hat gewonnen!",
                                                     "§eHerzlichen Glückwunsch!");
                                         } else {
                                             GameManager.getTeamHashMap(player).put(player.getUniqueId(),
@@ -175,6 +199,8 @@ public class GameManager {
                                             GameManager.SCORE_ORANGE++;
                                             player.playSound(player.getLocation(), Sound.LEVEL_UP,
                                                     10.3F, 10.3F);
+                                            player.addPotionEffect(new PotionEffect(
+                                                    PotionEffectType.REGENERATION, 10, 5));
                                             new Title("", "§e+1 Punkt").send(player);
                                             player.getWorld().playEffect(player.getLocation(),
                                                     Effect.COLOURED_DUST, 50);
@@ -190,20 +216,22 @@ public class GameManager {
     }
 
     public static void endGame() {
-        ended = true;
-        inGame = false;
+        if (!(debugger == 1)) {
+            ended = true;
+            inGame = false;
+            debugger++;
+            Bukkit.broadcastMessage(prefix + "Der Server startet in 20 Sekunden neu.");
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.kickPlayer(prefix + "Der Server startet jetzt neu!");
+                    }
 
-        Bukkit.broadcastMessage(prefix + "Der Server startet in 10 Sekunden neu.");
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.kickPlayer(prefix + "Der Server startet jetzt neu!");
+                    Bukkit.shutdown();
                 }
-
-                Bukkit.shutdown();
-            }
-        }.runTaskLater(BeeDash.instance, 200L);
+            }.runTaskLater(BeeDash.instance, 400L);
+        }
     }
 
 

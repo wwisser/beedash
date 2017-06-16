@@ -126,6 +126,10 @@ public class JoinQuitListener implements Listener {
             event.setLeaveMessage(
                     GameManager.prefix + GameManager.getTeamColor(player) + player.getName()
                             + " §ahat keine Lust mehr!");
+        } else if (GameManager.ended) {
+            event.setLeaveMessage(
+                    GameManager.prefix + GameManager.getTeamColor(player) + player.getName()
+                            + " §ahat das Spiel verlassen!");
         }
     }
 
