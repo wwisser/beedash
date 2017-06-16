@@ -15,11 +15,25 @@ public class ScoreboardManager {
 
         Objective obj = scoreboard.registerNewObjective("test", "dummy");
 
-        obj.setDisplayName(GameManager.prefix);
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        if (GameManager.warmup) {
+            obj.setDisplayName(GameManager.prefix);
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        Score score = obj.getScore("§aWartelobby");
-        score.setScore(Bukkit.getOnlinePlayers().size());
+            Score score = obj.getScore("§aWartelobby");
+            score.setScore(Bukkit.getOnlinePlayers().size());
+        }
+
+        if (GameManager.inGame) {
+
+        }
+
+        if (GameManager.ended) {
+            obj.setDisplayName(GameManager.prefix);
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+            Score score = obj.getScore("§aSpiel-Ende");
+            score.setScore(Bukkit.getOnlinePlayers().size());
+        }
 
         player.setScoreboard(scoreboard);
     }

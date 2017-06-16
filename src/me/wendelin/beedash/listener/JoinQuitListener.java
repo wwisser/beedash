@@ -3,8 +3,8 @@ package me.wendelin.beedash.listener;
 import me.wendelin.beedash.BeeDash;
 import me.wendelin.beedash.GameManager;
 import me.wendelin.beedash.ScoreboardManager;
-import me.wendelin.beedash.inventories.TeamSelector;
 import me.wendelin.beedash.util.ItemBuilder;
+import me.wendelin.beedash.util.TabTitleManager;
 import me.wendelin.beedash.util.Title;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -24,6 +24,9 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+
+        TabTitleManager.sendHeaderAndFooter(player, GameManager.prefix + " §aMinispiel\n§c",
+                "§c\n§7Beta v1.0");
 
         ScoreboardManager.updateScoreboard(player);
 
