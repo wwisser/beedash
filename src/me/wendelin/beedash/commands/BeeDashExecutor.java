@@ -17,8 +17,6 @@ public class BeeDashExecutor implements CommandExecutor {
             Player player = (Player)sender;
 
             player.sendMessage(GameManager.prefix + "");
-            player.getInventory().setItem(0, new ItemBuilder(Material.NETHER_STAR).name("§3Wähle dein Team!").build());
-            TeamSelector.open(player);
         } else {
             System.out.println("[BeeDash] Dieser Command ist nur fuer Spieler!");
         }

@@ -33,6 +33,8 @@ public class BeeDash extends JavaPlugin {
         GameManager.warmup = true;
         GameManager.checkPlayers();
 
+        ScoreboardManager.startTask();
+
     }
 
     @Override
