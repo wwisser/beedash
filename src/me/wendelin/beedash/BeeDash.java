@@ -49,11 +49,11 @@ public class BeeDash extends JavaPlugin {
         getCommand("beedash").setExecutor(new BeeDashExecutor());
 
         GameManager.warmup = true;
+
         GameManager.checkPlayers();
-
         ScoreboardManager.startTask();
-
         HologramManager.startTask();
+        SkinUtil.resetSkins();
     }
 
     @Override

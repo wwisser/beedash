@@ -7,6 +7,7 @@ import java.util.UUID;
 import me.wendelin.beedash.util.ActionBar;
 import me.wendelin.beedash.util.ItemBuilder;
 import me.wendelin.beedash.util.ItemEquipper;
+import me.wendelin.beedash.util.SkinUtil;
 import me.wendelin.beedash.util.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -115,6 +116,9 @@ public class GameManager {
             public void run() {
                 if (ended) {
                     cancel();
+                }
+                if (Bukkit.getOnlinePlayers().size() < 2) {
+                    endGame();
                 }
                 if (inGame) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
@@ -277,6 +281,7 @@ public class GameManager {
 
                     debugger = 0;
                     checkPlayers();
+                    SkinUtil.resetSkins();
                 }
             }.runTaskLater(BeeDash.instance, 200L);
         }

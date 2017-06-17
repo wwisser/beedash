@@ -14,6 +14,7 @@ public class ScoreboardManager {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
         Objective obj = scoreboard.registerNewObjective("test", "dummy");
+        Objective obj1 = scoreboard.registerNewObjective("info", "dummy");
 
         if (GameManager.warmup) {
             obj.setDisplayName(GameManager.prefix);
@@ -27,6 +28,13 @@ public class ScoreboardManager {
         }
 
         if (GameManager.inGame) {
+            obj1.setDisplaySlot(DisplaySlot.BELOW_NAME);
+            for (Player player1 : Bukkit.getOnlinePlayers()) {
+                obj1.setDisplayName("§bPunkte §7| " + GameManager.getTeamColor(player1) + "●●●");
+                obj1.getScore(player1).setScore(
+                        (int) GameManager.getTeamHashMap(player1).get(player1.getUniqueId()));
+            }
+
             obj.setDisplayName(GameManager.prefix);
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
