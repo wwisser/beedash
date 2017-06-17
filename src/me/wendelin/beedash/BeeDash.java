@@ -11,6 +11,7 @@ import me.wendelin.beedash.listener.InvClickListener;
 import me.wendelin.beedash.listener.JoinQuitListener;
 import me.wendelin.beedash.listener.RespawnListener;
 import me.wendelin.beedash.listener.ServerPingListener;
+import me.wendelin.beedash.util.SkinUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -32,6 +33,7 @@ public class BeeDash extends JavaPlugin {
         }
 
         PluginManager pm = this.getServer().getPluginManager();
+
         pm.registerEvents(new JoinQuitListener(), this);
         pm.registerEvents(new ServerPingListener(), this);
         pm.registerEvents(new DropPickListener(), this);
@@ -42,6 +44,7 @@ public class BeeDash extends JavaPlugin {
         pm.registerEvents(new RespawnListener(), this);
         pm.registerEvents(new DeathListener(), this);
         pm.registerEvents(new ChatListener(), this);
+        pm.registerEvents(new SkinUtil(), this);
 
         getCommand("beedash").setExecutor(new BeeDashExecutor());
 

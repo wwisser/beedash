@@ -32,7 +32,7 @@ public class ScoreboardManager {
 
             Score blue = obj.getScore("§9Team Blau");
             Score blue_score = obj
-                    .getScore("§b" + GameManager.SCORE_BLUE + "§7/§b" + GameManager.WIN);
+                    .getScore("§b" + GameManager.SCORE_BLUE + "§7/§b" + GameManager.WIN());
             blue.setScore(1);
             blue_score.setScore(0);
 
@@ -41,7 +41,7 @@ public class ScoreboardManager {
 
             Score orange = obj.getScore("§6Team Orange");
             Score orange_score = obj
-                    .getScore("§e" + GameManager.SCORE_ORANGE + "§7/§e" + GameManager.WIN);
+                    .getScore("§e" + GameManager.SCORE_ORANGE + "§7/§e" + GameManager.WIN());
             orange.setScore(4);
             orange_score.setScore(3);
 
@@ -50,7 +50,7 @@ public class ScoreboardManager {
 
             Score red = obj.getScore("§4Team Rot");
             Score red_score = obj
-                    .getScore("§c" + GameManager.SCORE_RED + "§7/§c" + GameManager.WIN);
+                    .getScore("§c" + GameManager.SCORE_RED + "§7/§c" + GameManager.WIN());
             red.setScore(7);
             red_score.setScore(6);
 
@@ -59,7 +59,7 @@ public class ScoreboardManager {
 
             Score green = obj.getScore("§2Team Grün");
             Score green_score = obj
-                    .getScore("§a" + GameManager.SCORE_GREEN + "§7/§a" + GameManager.WIN);
+                    .getScore("§a" + GameManager.SCORE_GREEN + "§7/§a" + GameManager.WIN());
             green.setScore(10);
             green_score.setScore(9);
         }

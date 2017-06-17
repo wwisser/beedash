@@ -1,19 +1,14 @@
 package me.wendelin.beedash.listener;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import me.wendelin.beedash.BeeDash;
 import me.wendelin.beedash.GameManager;
 import me.wendelin.beedash.ScoreboardManager;
 import me.wendelin.beedash.util.ItemBuilder;
-import me.wendelin.beedash.util.Skin;
 import me.wendelin.beedash.util.TabTitleManager;
 import me.wendelin.beedash.util.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +20,6 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class JoinQuitListener implements Listener {
 
@@ -105,6 +99,8 @@ public class JoinQuitListener implements Listener {
 
         if (GameManager.warmup) {
             GameManager.players.remove(player.getUniqueId());
+            GameManager.teams.remove(player.getUniqueId());
+            GameManager.getTeamHashMap(player).remove(player.getUniqueId());
             event.setQuitMessage(GameManager.prefix + ChatColor.AQUA + player.getName()
                     + " §ahat doch keine Lust!");
         } else if (GameManager.inGame) {
@@ -120,6 +116,8 @@ public class JoinQuitListener implements Listener {
 
         if (GameManager.warmup) {
             GameManager.players.remove(player.getUniqueId());
+            GameManager.teams.remove(player.getUniqueId());
+            GameManager.getTeamHashMap(player).remove(player.getUniqueId());
             event.setLeaveMessage(GameManager.prefix + ChatColor.AQUA + player.getName()
                     + " §ahat doch keine Lust!");
         } else if (GameManager.inGame) {
@@ -158,19 +156,19 @@ public class JoinQuitListener implements Listener {
                 GameManager.TEAM_BLUE.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "BLUE");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §9Blau §aeingeteilt!");
-                skinLoad(player, "bd15b004500446da8007ce724a97fe77");
+                skinLoad(player, "46ac0d3ac3d84862846d2f4477d12b7f");
                 break;
             case 5:
                 GameManager.TEAM_GREEN.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "GREEN");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §2Grün §aeingeteilt!");
-                skinLoad(player, "d98ba36aa7b14e8eaa8cbb9004647950");
+                skinLoad(player, "33b0897b8e5441cca3deb25f5e78127c");
                 break;
             case 6:
                 GameManager.TEAM_RED.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "RED");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §4Rot §aeingeteilt!");
-                skinLoad(player, "33b0897b8e5441cca3deb25f5e78127c");
+                skinLoad(player, "94b121a389864ff3bae581ff93fe0771");
                 break;
             case 7:
                 GameManager.TEAM_ORANGE.put(player.getUniqueId(), 0);
@@ -208,13 +206,13 @@ public class JoinQuitListener implements Listener {
                 GameManager.TEAM_BLUE.put(player.getUniqueId(), 0);
                 GameManager.teams.put(player.getUniqueId(), "BLUE");
                 player.sendMessage(GameManager.prefix + "Du wurdest in Team §9Blau §aeingeteilt!");
-                skinLoad(player, "46ac0d3ac3d84862846d2f4477d12b7f");
+                skinLoad(player, "306c9bdcff9043388a7bdc8fe3fab9f6");
                 break;
         }
     }
 
     private static void skinLoad(Player player, String uuid) {
-            GameProfile gp = ((CraftPlayer) player).getProfile();
+            /*GameProfile gp = ((CraftPlayer) player).getProfile();
             gp.getProperties().clear();
             Skin skin = new Skin(uuid);
 
@@ -237,7 +235,7 @@ public class JoinQuitListener implements Listener {
                         pl.showPlayer(player);
                     }
                 }
-            }.runTaskLater(BeeDash.instance, 10);
+            }.runTaskLater(BeeDash.instance, 10);*/
     }
 
 }

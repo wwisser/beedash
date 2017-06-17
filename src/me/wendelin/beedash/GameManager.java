@@ -54,9 +54,27 @@ public class GameManager {
     public static int SCORE_ORANGE = 0;
     public static int SCORE_BLUE = 0;
 
-    public static int WIN = 50;
+    //public static int WIN = 50;
 
     private static int debugger = 0;
+
+    public static int WIN() {
+        if (players.size() <= 7) {
+            return 50;
+        } else if (players.size() >= 8) {
+            return 100;
+        }
+        return 50;
+    }
+
+    public static long dropPeriod() {
+        if (players.size() <= 7) {
+            return 13L;
+        } else if (players.size() >= 8) {
+            return 7L;
+        }
+        return 13L;
+    }
 
     public static void startGame() {
         warmup = false;
@@ -77,7 +95,7 @@ public class GameManager {
                     }
                 }
             }
-        }.runTaskLater(BeeDash.instance, 50L);
+        }.runTaskLater(BeeDash.instance, dropPeriod());
 
         statusTask();
 
@@ -98,116 +116,133 @@ public class GameManager {
                 if (ended) {
                     cancel();
                 }
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()
-                            .equals(Material.WOOL)) {
-                        switch (player.getLocation().getBlock().getRelative(BlockFace.DOWN)
-                                .getBiome()) {
-                            case ROOFED_FOREST:
-                                if (GameManager.getTeamHashMap(player)
-                                        .equals(GameManager.TEAM_RED)) {
-                                    if (player.isSneaking() &&
-                                            (int) GameManager.getTeamHashMap(player)
-                                                    .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_RED >= WIN) {
-                                            endGame();
-                                            titleBroadcast("§4Team Rot hat gewonnen!",
-                                                    "§eHerzlichen Glückwunsch!");
-                                        } else {
-                                            GameManager.getTeamHashMap(player)
-                                                    .put(player.getUniqueId(),
-                                                            (int) GameManager.getTeamHashMap(player)
-                                                                    .get(player.getUniqueId()) - 1);
-                                            GameManager.SCORE_RED++;
-                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                    10.3F, 10.3F);
-                                            player.addPotionEffect(new PotionEffect(
-                                                    PotionEffectType.REGENERATION, 10, 5));
-                                            new Title("", "§e+1 Punkt").send(player);
-                                            player.getWorld().playEffect(player.getLocation(),
-                                                    Effect.COLOURED_DUST, 50);
+                if (inGame) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()
+                                .equals(Material.WOOL)) {
+                            switch (player.getLocation().getBlock().getRelative(BlockFace.DOWN)
+                                    .getBiome()) {
+                                case ROOFED_FOREST:
+                                    if (GameManager.getTeamHashMap(player)
+                                            .equals(GameManager.TEAM_RED)) {
+                                        if (player.isSneaking() &&
+                                                (int) GameManager.getTeamHashMap(player)
+                                                        .get(player.getUniqueId()) >= 1) {
+                                            if (SCORE_RED >= WIN()) {
+                                                endGame();
+                                                titleBroadcast("§4Team Rot hat gewonnen!",
+                                                        "§eHerzlichen Glückwunsch!");
+                                            } else {
+                                                GameManager.getTeamHashMap(player)
+                                                        .put(player.getUniqueId(),
+                                                                (int) GameManager
+                                                                        .getTeamHashMap(player)
+                                                                        .get(player.getUniqueId())
+                                                                        - 1);
+                                                GameManager.SCORE_RED++;
+                                                player.playSound(player.getLocation(),
+                                                        Sound.LEVEL_UP,
+                                                        10.3F, 10.3F);
+                                                player.addPotionEffect(new PotionEffect(
+                                                        PotionEffectType.REGENERATION, 10, 5));
+                                                new Title("", "§e+1 Punkt").send(player);
+                                                player.getWorld().playEffect(player.getLocation(),
+                                                        Effect.COLOURED_DUST, 50);
+                                            }
                                         }
                                     }
-                                }
-                                break;
-                            case FOREST:
-                                if (GameManager.getTeamHashMap(player)
-                                        .equals(GameManager.TEAM_GREEN)) {
-                                    if (player.isSneaking() &&
-                                            (int) GameManager.getTeamHashMap(player)
-                                                    .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_GREEN >= WIN) {
-                                            endGame();
-                                            titleBroadcast("§2Team Grün hat gewonnen!",
-                                                    "§eHerzlichen Glückwunsch!");
-                                        } else {
-                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                    (int) GameManager.getTeamHashMap(player)
-                                                            .get(player.getUniqueId()) - 1);
-                                            GameManager.SCORE_GREEN++;
-                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                    10.3F, 10.3F);
-                                            player.addPotionEffect(new PotionEffect(
-                                                    PotionEffectType.REGENERATION, 10, 5));
-                                            new Title("", "§e+1 Punkt").send(player);
-                                            player.getWorld().playEffect(player.getLocation(),
-                                                    Effect.COLOURED_DUST, 50);
+                                    break;
+                                case FOREST:
+                                    if (GameManager.getTeamHashMap(player)
+                                            .equals(GameManager.TEAM_GREEN)) {
+                                        if (player.isSneaking() &&
+                                                (int) GameManager.getTeamHashMap(player)
+                                                        .get(player.getUniqueId()) >= 1) {
+                                            if (SCORE_GREEN >= WIN()) {
+                                                endGame();
+                                                titleBroadcast("§2Team Grün hat gewonnen!",
+                                                        "§eHerzlichen Glückwunsch!");
+                                            } else {
+                                                GameManager.getTeamHashMap(player)
+                                                        .put(player.getUniqueId(),
+                                                                (int) GameManager
+                                                                        .getTeamHashMap(player)
+                                                                        .get(player.getUniqueId())
+                                                                        - 1);
+                                                GameManager.SCORE_GREEN++;
+                                                player.playSound(player.getLocation(),
+                                                        Sound.LEVEL_UP,
+                                                        10.3F, 10.3F);
+                                                player.addPotionEffect(new PotionEffect(
+                                                        PotionEffectType.REGENERATION, 10, 5));
+                                                new Title("", "§e+1 Punkt").send(player);
+                                                player.getWorld().playEffect(player.getLocation(),
+                                                        Effect.COLOURED_DUST, 50);
+                                            }
                                         }
                                     }
-                                }
-                                break;
-                            case SAVANNA:
-                                if (GameManager.getTeamHashMap(player)
-                                        .equals(GameManager.TEAM_BLUE)) {
-                                    if (player.isSneaking() &&
-                                            (int) GameManager.getTeamHashMap(player)
-                                                    .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_BLUE >= WIN) {
-                                            endGame();
-                                            titleBroadcast("§9Team Blau hat gewonnen!",
-                                                    "§eHerzlichen Glückwunsch!");
-                                        } else {
-                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                    (int) GameManager.getTeamHashMap(player)
-                                                            .get(player.getUniqueId()) - 1);
-                                            GameManager.SCORE_BLUE++;
-                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                    10.3F, 10.3F);
-                                            player.addPotionEffect(new PotionEffect(
-                                                    PotionEffectType.REGENERATION, 10, 5));
-                                            new Title("", "§e+1 Punkt").send(player);
-                                            player.getWorld().playEffect(player.getLocation(),
-                                                    Effect.COLOURED_DUST, 50);
+                                    break;
+                                case SAVANNA:
+                                    if (GameManager.getTeamHashMap(player)
+                                            .equals(GameManager.TEAM_BLUE)) {
+                                        if (player.isSneaking() &&
+                                                (int) GameManager.getTeamHashMap(player)
+                                                        .get(player.getUniqueId()) >= 1) {
+                                            if (SCORE_BLUE >= WIN()) {
+                                                endGame();
+                                                titleBroadcast("§9Team Blau hat gewonnen!",
+                                                        "§eHerzlichen Glückwunsch!");
+                                            } else {
+                                                GameManager.getTeamHashMap(player)
+                                                        .put(player.getUniqueId(),
+                                                                (int) GameManager
+                                                                        .getTeamHashMap(player)
+                                                                        .get(player.getUniqueId())
+                                                                        - 1);
+                                                GameManager.SCORE_BLUE++;
+                                                player.playSound(player.getLocation(),
+                                                        Sound.LEVEL_UP,
+                                                        10.3F, 10.3F);
+                                                player.addPotionEffect(new PotionEffect(
+                                                        PotionEffectType.REGENERATION, 10, 5));
+                                                new Title("", "§e+1 Punkt").send(player);
+                                                player.getWorld().playEffect(player.getLocation(),
+                                                        Effect.COLOURED_DUST, 50);
+                                            }
                                         }
                                     }
-                                }
-                                break;
-                            case BEACH:
-                                if (GameManager.getTeamHashMap(player)
-                                        .equals(GameManager.TEAM_ORANGE)) {
-                                    if (player.isSneaking() &&
-                                            (int) GameManager.getTeamHashMap(player)
-                                                    .get(player.getUniqueId()) >= 1) {
-                                        if (SCORE_ORANGE >= WIN) {
-                                            endGame();
-                                            titleBroadcast("§6Team Orange hat gewonnen!",
-                                                    "§eHerzlichen Glückwunsch!");
-                                        } else {
-                                            GameManager.getTeamHashMap(player).put(player.getUniqueId(),
-                                                    (int) GameManager.getTeamHashMap(player)
-                                                            .get(player.getUniqueId()) - 1);
-                                            GameManager.SCORE_ORANGE++;
-                                            player.playSound(player.getLocation(), Sound.LEVEL_UP,
-                                                    10.3F, 10.3F);
-                                            player.addPotionEffect(new PotionEffect(
-                                                    PotionEffectType.REGENERATION, 10, 5));
-                                            new Title("", "§e+1 Punkt").send(player);
-                                            player.getWorld().playEffect(player.getLocation(),
-                                                    Effect.COLOURED_DUST, 50);
+                                    break;
+                                case BEACH:
+                                    if (GameManager.getTeamHashMap(player)
+                                            .equals(GameManager.TEAM_ORANGE)) {
+                                        if (player.isSneaking() &&
+                                                (int) GameManager.getTeamHashMap(player)
+                                                        .get(player.getUniqueId()) >= 1) {
+                                            if (SCORE_ORANGE >= WIN()) {
+                                                endGame();
+                                                titleBroadcast("§6Team Orange hat gewonnen!",
+                                                        "§eHerzlichen Glückwunsch!");
+                                            } else {
+                                                GameManager.getTeamHashMap(player)
+                                                        .put(player.getUniqueId(),
+                                                                (int) GameManager
+                                                                        .getTeamHashMap(player)
+                                                                        .get(player.getUniqueId())
+                                                                        - 1);
+                                                GameManager.SCORE_ORANGE++;
+                                                player.playSound(player.getLocation(),
+                                                        Sound.LEVEL_UP,
+                                                        10.3F, 10.3F);
+                                                player.addPotionEffect(new PotionEffect(
+                                                        PotionEffectType.REGENERATION, 10, 5));
+                                                new Title("", "§e+1 Punkt").send(player);
+                                                player.getWorld().playEffect(player.getLocation(),
+                                                        Effect.COLOURED_DUST, 50);
+                                            }
                                         }
                                     }
-                                }
-                                break;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -220,22 +255,38 @@ public class GameManager {
             ended = true;
             inGame = false;
             debugger++;
-            Bukkit.broadcastMessage(prefix + "Der Server startet in 20 Sekunden neu.");
+            Bukkit.broadcastMessage(prefix + "Die Spieler werden in 10 Sekunden gekickt.");
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.kickPlayer(prefix + "Der Server startet jetzt neu!");
+                        player.kickPlayer(prefix
+                                + "Die Runde ist vorbei!\nNoch eine Runde? Verbinde dich neu!");
                     }
+                    players.clear();
+                    teams.clear();
+                    TEAM_BLUE.clear();
+                    TEAM_GREEN.clear();
+                    TEAM_ORANGE.clear();
+                    TEAM_RED.clear();
 
-                    Bukkit.shutdown();
+                    SCORE_GREEN = 0;
+                    SCORE_BLUE = 0;
+                    SCORE_ORANGE = 0;
+                    SCORE_RED = 0;
+
+                    debugger = 0;
+                    checkPlayers();
                 }
-            }.runTaskLater(BeeDash.instance, 400L);
+            }.runTaskLater(BeeDash.instance, 200L);
         }
     }
 
 
     public static void checkPlayers() {
+        inGame = false;
+        ended = false;
+        warmup = true;
         new BukkitRunnable() {
             @Override
             public void run() {
